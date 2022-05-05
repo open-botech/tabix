@@ -28,3 +28,9 @@ body {
 :global(.ant-tooltip-inner) {
   white-space: pre;
 }
+
+:root {
+  --color-white: #fff;
+  --color-black: #000;
+  --color-black-text: rgb(28, 30, 33);
+}

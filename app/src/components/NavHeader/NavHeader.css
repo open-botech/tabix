@@ -1,0 +1,36 @@
+.root {
+  display: flex;
+  height: 60px;
+  background: var(--color-white);
+  width: 100%;
+  z-index: 1000;
+  padding: 0 18px;
+  color: var(--color-black-text);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  width: 40px;
+  height: 36px;
+  margin: 0 10px 0 0;
+}
+
+.systitle {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.funlist {
+  display: flex;
+  align-items: center;
+}
+
+.funlist span {
+  margin-left: 20px;
+  font-weight: normal;
+  cursor: pointer;
+}

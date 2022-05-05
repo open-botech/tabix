@@ -19,6 +19,7 @@ node_modules/
 app/src/components/Handsontable/
 
 # Yarn
+.yarn
 .yarn/*
 !.yarn/cache
 !.yarn/patches
