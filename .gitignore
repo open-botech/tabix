@@ -1,6 +1,8 @@
 # Output
 dist/
 *.log
+*-front/
+*-front.zip
 
 # Temp and caches
 node_modules/

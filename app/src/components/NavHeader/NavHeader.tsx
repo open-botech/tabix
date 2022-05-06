@@ -1,5 +1,6 @@
 import React from 'react';
 import css from './NavHeader.css';
+import { ServerAction } from '../../components/Dashboard/ServerStructureTree/ServerTitle/ContextMenu';
 
 interface Props {
   callback?: any;
@@ -19,19 +20,28 @@ export default class Page extends React.Component<Props> {
         </div>
 
         <div className={css.funlist}>
-          <span className={css.systitle} onClick={() => this.navAction(1)}>
+          <span className={css.systitle} onClick={() => this.navAction(ServerAction.OpenProcesses)}>
             Processes
           </span>
-          <span className={css.systitle} onClick={() => this.navAction(2)}>
+          <span
+            className={css.systitle}
+            onClick={() => this.navAction(ServerAction.OpenDbOverview)}
+          >
             Db Overview
           </span>
-          <span className={css.systitle} onClick={() => this.navAction(3)}>
+          <span
+            className={css.systitle}
+            onClick={() => this.navAction(ServerAction.OpenServerOverview)}
+          >
             Server Overview
           </span>
-          <span className={css.systitle} onClick={() => this.navAction(4)}>
+          <span className={css.systitle} onClick={() => this.navAction(ServerAction.OpenMetrics)}>
             Metrics server
           </span>
-          <span className={css.systitle} onClick={() => this.navAction(5)}>
+          <span
+            className={css.systitle}
+            onClick={() => this.navAction(ServerAction.OpenSqlHistory)}
+          >
             History sql
           </span>
         </div>
