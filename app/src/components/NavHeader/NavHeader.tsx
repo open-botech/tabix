@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default class Page extends React.Component<Props> {
-  navAction = (key: any) => {
+  navAction = (key: ServerAction) => {
     this.props.callback(key);
   };
 
