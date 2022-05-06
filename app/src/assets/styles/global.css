@@ -2,7 +2,7 @@
 @import './reset-defaults.css';
 body {
   font-size: 13px;
-  background: black;
+  background: var(--color-white);
   /* line-height: 1.15; */
   /* color: font-color; */
   /* fill: font-color; */
@@ -33,4 +33,6 @@ body {
   --color-white: #fff;
   --color-black: #000;
   --color-black-text: rgb(28, 30, 33);
+  --color-yellow-text: rgb(255, 204, 0);
+  --color-primary-bg: #10223e;
 }

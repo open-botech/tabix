@@ -1,4 +1,6 @@
 .root {
+  background: var(--color-primary-bg);
+  color: var(--color-white);
   :global {
     & .ReactVirtualized__Grid {
       outline: none;
@@ -11,7 +13,7 @@
   user-select: none;
 
   &.selected {
-    background-color: #0d293e;
+    color: var(--color-yellow-text)
   }
 
   &.highlighted {

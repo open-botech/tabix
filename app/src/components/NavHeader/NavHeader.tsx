@@ -14,7 +14,7 @@ export default class Page extends React.Component<Props> {
     return (
       <div className={css.root}>
         <div className={css.logo}>
-          <img src="https://clickhouse.com/docs/img/clickhouse.svg   " alt="" />
+          <img src="https://clickhouse.com/docs/img/clickhouse.svg" alt="" />
           <span className={css.systitle}>CKVision</span>
         </div>
 

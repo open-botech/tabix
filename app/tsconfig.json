@@ -22,5 +22,6 @@
     "noImplicitThis": true /* no  */,
     "lib": ["dom", "dom.iterable", "esnext"]
   },
+  "include": ["./src/types/images.d.ts"],
   "files": ["./src/index.tsx"]
 }

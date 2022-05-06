@@ -2,7 +2,7 @@ export default {
   '@primary-color': '#1DA57A',
   '@link-color': '#1DA57A',
   '@border-radius-base': '1px',
-  '@layout-body-background': '#404040',
+  '@layout-body-background': '#ffffff',
   '@body-background': '#404041',
   '@layout-sider-background': '#313131',
   '@component-background': '#313132',
