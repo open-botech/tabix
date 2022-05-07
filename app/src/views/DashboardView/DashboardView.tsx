@@ -256,7 +256,7 @@ class DashboardView extends React.Component<RoutedProps> {
             primary="second"
             minSize={100}
             maxSize={-100}
-            defaultSize="calc(100vw - 225px)"
+            defaultSize="calc(100vw - 325px)"
             size={uiStore.primaryPaneSize}
             onDragFinished={uiStore.updatePrimaryPaneSize}
           >
@@ -274,6 +274,7 @@ class DashboardView extends React.Component<RoutedProps> {
                 onEdit={this.onEditTabs}
                 onChange={tabsStore.setActiveTab}
                 onMenuAction={this.onMenuAction}
+                renderTabBar={() => <></>}
               >
                 {tabsStore.tabs.map((t) => (
                   <TabsTabPane

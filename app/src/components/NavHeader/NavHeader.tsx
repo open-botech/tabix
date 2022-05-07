@@ -23,7 +23,7 @@ export default class Page extends React.Component<Props> {
           <span className={css.systitle} onClick={() => this.navAction(ServerAction.OpenProcesses)}>
             Processes
           </span>
-          <span
+          {/* <span
             className={css.systitle}
             onClick={() => this.navAction(ServerAction.OpenDbOverview)}
           >
@@ -34,7 +34,7 @@ export default class Page extends React.Component<Props> {
             onClick={() => this.navAction(ServerAction.OpenServerOverview)}
           >
             Server Overview
-          </span>
+          </span> */}
           <span className={css.systitle} onClick={() => this.navAction(ServerAction.OpenMetrics)}>
             Metrics server
           </span>

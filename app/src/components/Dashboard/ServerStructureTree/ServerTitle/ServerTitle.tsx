@@ -35,17 +35,17 @@ export default function ServerTitle({
 
   return (
     <Flex alignItems="center" hfill>
-      <Dropdown
+      {/* <Dropdown
         overlay={<ContextMenu server={server} onContextMenuAction={onAction} />}
         trigger={['contextMenu']}
         visible={visible}
         onVisibleChange={setVisible}
-      >
+      > */}
         <Flex grow alignItems="center" className={css.dropdown}>
           <DatabaseOutlined />
           <div className={css.title}>{title}</div>
         </Flex>
-      </Dropdown>
+      {/* </Dropdown> */}
 
       <Flex justifyContent="flex-end" onDoubleClick={preventPropagation}>
         <ReloadOutlined title="Reload" onClick={onReload} className={css.action} />

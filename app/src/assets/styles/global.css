@@ -43,13 +43,17 @@ body {
 }
 
 :global(.ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab-active) {
-  background-color: var(--tab-bg);
+  background-color: var(--tab-bg) !important;
+}
+
+:global(.ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab-active.ant-tabs-tab) {
+  background-color: var(--tab-bg) !important;
 }
 
 :global(.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab-active) {
   color: #fff;
-  background: var(--tab-bg);
-  border: var(--tab-bg);
+  background: var(--tab-bg) !important;
+  border: var(--tab-bg) !important;
 }
 
 :global(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
@@ -88,4 +92,8 @@ body {
 :global(.handsontable-dark .handsontable td) {
   background-color: #FBFBFB !important;
   color: #525272;
+}
+
+:global(.ant-tabs-ink-bar) {
+  background-color: var(--tab-bg);
 }
