@@ -183,7 +183,7 @@ export default class EditorTabPage extends React.Component<Props> {
               fill
             />
 
-            <div>
+            <div style={{ marginTop: '10px' }}>
               {model.tableData.map((data) => <div>{data}</div>).orUndefined()}
 
               <Tabs

@@ -8,13 +8,7 @@ import { routePaths } from 'routes';
 import { Menu, Dropdown } from 'antd';
 import { MenuInfo } from 'rc-menu/lib/interface';
 import { RootStore, Stores, TabsStore, TreeStore } from 'stores';
-import {
-  EditorTabModel,
-  isTabOfType,
-  Tab,
-  TableViewTabModel,
-  TabType,
-} from 'models';
+import { EditorTabModel, isTabOfType, Tab, TableViewTabModel, TabType } from 'models';
 
 import {
   CodeOutlined,
@@ -46,7 +40,7 @@ import {
 import Splitter from 'components/Splitter';
 import css from './DashboardView.css';
 
-import NotSqlPageContainer from '../NotSqlPageContainer/NotSqlPageContainer'
+import NotSqlPageContainer from '../NotSqlPageContainer/NotSqlPageContainer';
 
 interface InjectedProps {
   treeStore: TreeStore;
@@ -71,8 +65,8 @@ type RoutedProps = Props & RouteComponentProps<any>;
 class DashboardView extends React.Component<RoutedProps> {
   state = {
     showNotSqlPage: false,
-    currentPage: ''
-  } 
+    currentPage: '',
+  };
   componentDidMount() {
     this.props.tabsStore.loadData();
   }
@@ -304,8 +298,6 @@ class DashboardView extends React.Component<RoutedProps> {
                         />
                       )}
 
-
-
                       {/* {isTabOfType<ProcessesTabModel>(t, TabType.Processes) && <ProcessesTabPage />}
 
                       {isTabOfType<MetricsTabModel>(t, TabType.Metrics) && <MetricsTabPage />} */}
@@ -337,6 +329,6 @@ export default withRouter(
       tabsStore: store.tabsStore,
       treeStore: store.treeStore,
       allStore: store,
-    }
+    };
   })(DashboardView)
 );

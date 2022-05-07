@@ -9,7 +9,7 @@ export default {
   '@input-bg': '#313133',
   '@btn-default-bg': '#404041',
   '@border-color-base': '#1e1e1e',
-  '@border-color-split': '#262627',
+  '@border-color-split': 'rgba(0,0,0,.06)',
   '@heading-color': 'fade(#fff, 85%)',
   '@text-color ': 'fade(#fff, 80%)',
   '@primary-1': 'fade(#000, 15%)',
