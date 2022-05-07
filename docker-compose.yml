@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  ckvision:
+    build: .
+    image: ckvision:latest
+    volumes:
+      - .:/ckvision
+    ports:
+      - "9001:9001"
+    depends_on:
+      - grafana
+  grafana:
+    image: grafana/grafana-enterprise:8.2.0
+    ports:
+      - 3000:3000
