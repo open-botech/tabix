@@ -1,0 +1,10 @@
+.NotSqlPageContainer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: calc(100vh - 60px);
+    z-index: 10000;
+    background: #fff;
+    padding: 0 30px;
+    box-sizing: border-box;
+}

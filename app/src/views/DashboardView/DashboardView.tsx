@@ -7,7 +7,7 @@ import { ServerStructure } from 'services';
 import { routePaths } from 'routes';
 import { Menu, Dropdown } from 'antd';
 import { MenuInfo } from 'rc-menu/lib/interface';
-import { Stores, TabsStore, TreeStore } from 'stores';
+import { RootStore, Stores, TabsStore, TreeStore } from 'stores';
 import {
   DbOverviewTab,
   EditorTabModel,
@@ -56,9 +56,12 @@ import {
 import Splitter from 'components/Splitter';
 import css from './DashboardView.css';
 
+import NotSqlPageContainer from '../NotSqlPageContainer/NotSqlPageContainer'
+
 interface InjectedProps {
   treeStore: TreeStore;
   tabsStore: TabsStore;
+  allStore: RootStore;
 }
 
 export type Props = InjectedProps;
@@ -76,6 +79,10 @@ type RoutedProps = Props & RouteComponentProps<any>;
 
 @observer
 class DashboardView extends React.Component<RoutedProps> {
+  state = {
+    showNotSqlPage: false,
+    currentPage: ''
+  } 
   componentDidMount() {
     this.props.tabsStore.loadData();
   }
@@ -90,14 +97,14 @@ class DashboardView extends React.Component<RoutedProps> {
         this.props.tabsStore.openMetricsTab();
         break;
       }
-      case ServerAction.OpenServerOverview: {
-        this.props.tabsStore.openServerOverviewTab();
-        break;
-      }
-      case ServerAction.OpenDbOverview: {
-        this.props.tabsStore.openDbOverviewTab();
-        break;
-      }
+      // case ServerAction.OpenServerOverview: {
+      //   this.props.tabsStore.openServerOverviewTab();
+      //   break;
+      // }
+      // case ServerAction.OpenDbOverview: {
+      //   this.props.tabsStore.openDbOverviewTab();
+      //   break;
+      // }
       case ServerAction.OpenSqlHistory: {
         this.props.tabsStore.openSqlHistoryTab();
         break;
@@ -139,10 +146,10 @@ class DashboardView extends React.Component<RoutedProps> {
           this.props.tabsStore.openMetricsTab();
           break;
         }
-        case ServerStructure.PagesCommands.ServerOverview: {
-          this.props.tabsStore.openServerOverviewTab();
-          break;
-        }
+        // case ServerStructure.PagesCommands.ServerOverview: {
+        //   this.props.tabsStore.openServerOverviewTab();
+        //   break;
+        // }
         // case ServerStructure.PagesCommands.DbOverview: {
         //   this.props.tabsStore.openDbOverviewTab();
         //   break;
@@ -229,7 +236,7 @@ class DashboardView extends React.Component<RoutedProps> {
   };
 
   render() {
-    const { tabsStore, treeStore } = this.props;
+    const { tabsStore, treeStore, allStore } = this.props;
     const { uiStore } = tabsStore;
     const isBlocking = tabsStore
       .getActiveTabOfType<EditorTabModel>(TabType.Editor)
@@ -249,7 +256,8 @@ class DashboardView extends React.Component<RoutedProps> {
 
     return (
       <div>
-        <NavHeader callback={this.onServerAction} />
+        <NotSqlPageContainer></NotSqlPageContainer>
+        <NavHeader allStore={allStore} callback={this.onServerAction} />
         <Page column={false} uiStore={tabsStore.uiStore}>
           <NavPrompt when={isBlocking} message="Do you want to leave this page?" />
           <Splitter
@@ -306,19 +314,21 @@ class DashboardView extends React.Component<RoutedProps> {
                         />
                       )}
 
-                      {isTabOfType<ProcessesTabModel>(t, TabType.Processes) && <ProcessesTabPage />}
 
-                      {isTabOfType<MetricsTabModel>(t, TabType.Metrics) && <MetricsTabPage />}
 
-                      {isTabOfType<ServerOverviewTab>(t, TabType.ServerOverview) && (
+                      {/* {isTabOfType<ProcessesTabModel>(t, TabType.Processes) && <ProcessesTabPage />}
+
+                      {isTabOfType<MetricsTabModel>(t, TabType.Metrics) && <MetricsTabPage />} */}
+
+                      {/* {isTabOfType<ServerOverviewTab>(t, TabType.ServerOverview) && (
                         <ServerOverviewTabPage />
                       )}
 
-                      {isTabOfType<DbOverviewTab>(t, TabType.DbOverview) && <DbOverviewTabPage />}
+                      {isTabOfType<DbOverviewTab>(t, TabType.DbOverview) && <DbOverviewTabPage />} */}
 
-                      {isTabOfType<SqlHistoryTab>(t, TabType.SqlHistory) && (
+                      {/* {isTabOfType<SqlHistoryTab>(t, TabType.SqlHistory) && (
                         <SqlHistoryTabPage onEdit={tabsStore.openNewEditorTab} />
-                      )}
+                      )} */}
                     </Flex>
                   </TabsTabPane>
                 ))}
@@ -332,8 +342,11 @@ class DashboardView extends React.Component<RoutedProps> {
 }
 
 export default withRouter(
-  typedInject<InjectedProps, RoutedProps, Stores>(({ store }) => ({
-    tabsStore: store.tabsStore,
-    treeStore: store.treeStore,
-  }))(DashboardView)
+  typedInject<InjectedProps, RoutedProps, Stores>(({ store }) => {
+    return {
+      tabsStore: store.tabsStore,
+      treeStore: store.treeStore,
+      allStore: store,
+    }
+  })(DashboardView)
 );
