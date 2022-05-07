@@ -105,3 +105,7 @@ body {
 :global(.ant-tabs) {
   color: var(--color-black-text);
 }
+
+:global(.ant-empty-description) {
+  color: #000;
+}

@@ -5,8 +5,8 @@ import {
   ProcessesTabPage,
   SqlHistoryTabPage,
 } from '../../components/Dashboard';
-import React, { useEffect, useState } from 'react';
-import { inject, observer } from 'mobx-react';
+import React from 'react';
+import { observer } from 'mobx-react';
 import { typedInject } from 'module/mobx-utils';
 import css from './NotSqlPageContainer.css'
 
@@ -38,7 +38,3 @@ export default typedInject(({store}) => {
     allStore: store,
   }
 })(observer(NotSqlPageContainer))
-// observer((store) => {
-//   console.log(store, '9999999999')
-//   return <NotSqlPageContainer allStore={store} tabsStore={store.tabsStore} />
-// })

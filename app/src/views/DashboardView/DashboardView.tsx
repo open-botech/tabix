@@ -9,13 +9,8 @@ import { Menu, Dropdown } from 'antd';
 import { MenuInfo } from 'rc-menu/lib/interface';
 import { RootStore, Stores, TabsStore, TreeStore } from 'stores';
 import {
-  DbOverviewTab,
   EditorTabModel,
   isTabOfType,
-  MetricsTabModel,
-  ProcessesTabModel,
-  ServerOverviewTab,
-  SqlHistoryTab,
   Tab,
   TableViewTabModel,
   TabType,
@@ -31,14 +26,9 @@ import {
 } from '@ant-design/icons';
 
 import {
-  DbOverviewTabPage,
   EditorTabPage,
-  MetricsTabPage,
   NavPrompt,
-  ProcessesTabPage,
-  ServerOverviewTabPage,
   ServerStructureTree,
-  SqlHistoryTabPage,
   TableViewTabPage,
   Tabs,
   TabsTabPane,
@@ -257,7 +247,7 @@ class DashboardView extends React.Component<RoutedProps> {
     return (
       <div>
         <NotSqlPageContainer></NotSqlPageContainer>
-        <NavHeader allStore={allStore} callback={this.onServerAction} />
+        <NavHeader allStore={allStore} />
         <Page column={false} uiStore={tabsStore.uiStore}>
           <NavPrompt when={isBlocking} message="Do you want to leave this page?" />
           <Splitter

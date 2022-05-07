@@ -1,23 +1,23 @@
 import React from 'react';
 import css from './NavHeader.css';
-import { ServerAction } from '../../components/Dashboard/ServerStructureTree/ServerTitle/ContextMenu';
-import { RootStore, Stores } from 'stores';
+import { RootStore } from 'stores';
 import { TabType } from 'models';
+import { observer } from 'mobx-react';
+import { typedInject } from 'module/mobx-utils';
 
 interface Props {
-  callback?: any;
   allStore: RootStore
 }
 
-export default class Page extends React.Component<Props> {
-  navAction = (key: ServerAction) => {
-    this.props.callback(key);
-  };
-
+@observer
+class Page extends React.Component<Props> {
   render() {
     const { allStore } = this.props
     return (
-      <div className={css.root}>
+      <div style={{
+        position: allStore.currentPage ? 'sticky' : 'unset',
+        top: allStore.currentPage ? '0' : 'unset',
+      }} className={css.root}>
         <div className={css.logo}>
           <img src="https://clickhouse.com/docs/img/clickhouse.svg" alt="" />
           <span className={css.systitle}>CKVision</span>
@@ -64,3 +64,9 @@ export default class Page extends React.Component<Props> {
     );
   }
 }
+
+export default typedInject(({ store }) => {
+  return {
+    allStore: store,
+  }
+})(Page)
