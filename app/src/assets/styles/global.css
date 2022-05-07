@@ -97,3 +97,11 @@ body {
 :global(.ant-tabs-ink-bar) {
   background-color: var(--tab-bg);
 }
+
+:global(.ant-collapse > .ant-collapse-item > .ant-collapse-header) {
+  color: var(--color-black-text) !important;
+}
+
+:global(.ant-tabs) {
+  color: var(--color-black-text);
+}
