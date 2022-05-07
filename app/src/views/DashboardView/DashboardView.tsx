@@ -274,7 +274,6 @@ class DashboardView extends React.Component<RoutedProps> {
                 onEdit={this.onEditTabs}
                 onChange={tabsStore.setActiveTab}
                 onMenuAction={this.onMenuAction}
-                renderTabBar={() => <></>}
               >
                 {tabsStore.tabs.map((t) => (
                   <TabsTabPane
