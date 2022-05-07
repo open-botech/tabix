@@ -7,6 +7,7 @@ import DashboardUIStore from './DashboardUIStore';
 import SqlHistoryStore from './SqlHistoryStore';
 import TreeStore from './TreeStore';
 import TabsStore from './TabsStore';
+import { TabType } from 'models';
 
 export default class RootStore extends BaseRootStore {
   @observable
@@ -24,6 +25,9 @@ export default class RootStore extends BaseRootStore {
   @observable
   sqlHistoryStore: SqlHistoryStore;
 
+  @observable
+  currentPage: string;
+
   constructor() {
     super();
     this.appStore = new AppStore(this, new UIStore(this));
@@ -32,7 +36,13 @@ export default class RootStore extends BaseRootStore {
     this.treeStore = new TreeStore(this, dashboardUIStore);
     this.tabsStore = new TabsStore(this, dashboardUIStore);
     this.sqlHistoryStore = new SqlHistoryStore(this, new UIStore(this));
+    this.currentPage = ''
     this.initialize();
+  }
+
+  @action
+  changeCurrentPage(page: TabType | '') {
+    this.currentPage = page
   }
 
   // After hot update and rerender App will dispose all stores,

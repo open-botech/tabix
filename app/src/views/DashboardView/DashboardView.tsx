@@ -7,19 +7,8 @@ import { ServerStructure } from 'services';
 import { routePaths } from 'routes';
 import { Menu, Dropdown } from 'antd';
 import { MenuInfo } from 'rc-menu/lib/interface';
-import { Stores, TabsStore, TreeStore } from 'stores';
-import {
-  DbOverviewTab,
-  EditorTabModel,
-  isTabOfType,
-  MetricsTabModel,
-  ProcessesTabModel,
-  ServerOverviewTab,
-  SqlHistoryTab,
-  Tab,
-  TableViewTabModel,
-  TabType,
-} from 'models';
+import { RootStore, Stores, TabsStore, TreeStore } from 'stores';
+import { EditorTabModel, isTabOfType, Tab, TableViewTabModel, TabType } from 'models';
 
 import {
   CodeOutlined,
@@ -31,20 +20,16 @@ import {
 } from '@ant-design/icons';
 
 import {
-  DbOverviewTabPage,
   EditorTabPage,
-  MetricsTabPage,
   NavPrompt,
-  ProcessesTabPage,
-  ServerOverviewTabPage,
   ServerStructureTree,
-  SqlHistoryTabPage,
   TableViewTabPage,
   Tabs,
   TabsTabPane,
 } from 'components/Dashboard';
 import { TextInsertType } from 'components/Dashboard/EditorTabPage';
 import Page from 'components/Page';
+import NavHeader from 'components/NavHeader';
 import { ActionType } from 'components/Dashboard/Tabs';
 import {
   ColumnAction,
@@ -55,9 +40,12 @@ import {
 import Splitter from 'components/Splitter';
 import css from './DashboardView.css';
 
+import NotSqlPageContainer from '../NotSqlPageContainer/NotSqlPageContainer';
+
 interface InjectedProps {
   treeStore: TreeStore;
   tabsStore: TabsStore;
+  allStore: RootStore;
 }
 
 export type Props = InjectedProps;
@@ -75,6 +63,10 @@ type RoutedProps = Props & RouteComponentProps<any>;
 
 @observer
 class DashboardView extends React.Component<RoutedProps> {
+  state = {
+    showNotSqlPage: false,
+    currentPage: '',
+  };
   componentDidMount() {
     this.props.tabsStore.loadData();
   }
@@ -89,14 +81,14 @@ class DashboardView extends React.Component<RoutedProps> {
         this.props.tabsStore.openMetricsTab();
         break;
       }
-      case ServerAction.OpenServerOverview: {
-        this.props.tabsStore.openServerOverviewTab();
-        break;
-      }
-      case ServerAction.OpenDbOverview: {
-        this.props.tabsStore.openDbOverviewTab();
-        break;
-      }
+      // case ServerAction.OpenServerOverview: {
+      //   this.props.tabsStore.openServerOverviewTab();
+      //   break;
+      // }
+      // case ServerAction.OpenDbOverview: {
+      //   this.props.tabsStore.openDbOverviewTab();
+      //   break;
+      // }
       case ServerAction.OpenSqlHistory: {
         this.props.tabsStore.openSqlHistoryTab();
         break;
@@ -138,10 +130,10 @@ class DashboardView extends React.Component<RoutedProps> {
           this.props.tabsStore.openMetricsTab();
           break;
         }
-        case ServerStructure.PagesCommands.ServerOverview: {
-          this.props.tabsStore.openServerOverviewTab();
-          break;
-        }
+        // case ServerStructure.PagesCommands.ServerOverview: {
+        //   this.props.tabsStore.openServerOverviewTab();
+        //   break;
+        // }
         // case ServerStructure.PagesCommands.DbOverview: {
         //   this.props.tabsStore.openDbOverviewTab();
         //   break;
@@ -228,7 +220,7 @@ class DashboardView extends React.Component<RoutedProps> {
   };
 
   render() {
-    const { tabsStore, treeStore } = this.props;
+    const { tabsStore, treeStore, allStore } = this.props;
     const { uiStore } = tabsStore;
     const isBlocking = tabsStore
       .getActiveTabOfType<EditorTabModel>(TabType.Editor)
@@ -247,90 +239,96 @@ class DashboardView extends React.Component<RoutedProps> {
     );
 
     return (
-      <Page column={false} uiStore={tabsStore.uiStore}>
-        <NavPrompt when={isBlocking} message="Do you want to leave this page?" />
+      <div>
+        <NotSqlPageContainer></NotSqlPageContainer>
+        <NavHeader allStore={allStore} />
+        <Page column={false} uiStore={tabsStore.uiStore}>
+          <NavPrompt when={isBlocking} message="Do you want to leave this page?" />
+          <Splitter
+            primary="second"
+            minSize={100}
+            maxSize={-100}
+            defaultSize="calc(100vw - 325px)"
+            size={uiStore.primaryPaneSize}
+            onDragFinished={uiStore.updatePrimaryPaneSize}
+          >
+            <Flex alignItems="flex-start" vfill className={css['sider-container']}>
+              <ServerStructureTree
+                onServerAction={this.onServerAction}
+                onTableAction={this.onTableAction}
+                onColumnAction={this.onColumnAction}
+                onCommandAction={this.onCommandAction}
+              />
+            </Flex>
+            <Flex fill={true} column hfill className={css.baseContent}>
+              <Tabs
+                activeKey={tabsStore.activeTab.map((_) => _.id).orUndefined()}
+                onEdit={this.onEditTabs}
+                onChange={tabsStore.setActiveTab}
+                onMenuAction={this.onMenuAction}
+              >
+                {tabsStore.tabs.map((t) => (
+                  <TabsTabPane
+                    key={t.id}
+                    closable
+                    tab={
+                      <Dropdown overlay={tabRightMenu(t.id)} trigger={['contextMenu']}>
+                        <span>
+                          {this.getTabIcon(t)}
+                          {t.title}
+                        </span>
+                      </Dropdown>
+                    }
+                  >
+                    <Flex fill={true} column hfill style={{ minHeight: '96vh', maxHeight: '96vh' }}>
+                      {isTabOfType<EditorTabModel>(t, TabType.Editor) && (
+                        <EditorTabPage
+                          store={tabsStore}
+                          serverStructure={treeStore.serverStructure.orUndefined()}
+                          model={t}
+                          onModelFieldChange={t.changeField}
+                          width={uiStore.primaryPaneSize}
+                        />
+                      )}
 
-        <Splitter
-          primary="second"
-          minSize={100}
-          maxSize={-100}
-          defaultSize="calc(100vw - 225px)"
-          size={uiStore.primaryPaneSize}
-          onDragFinished={uiStore.updatePrimaryPaneSize}
-        >
-          <Flex alignItems="flex-start" vfill className={css['sider-container']}>
-            <ServerStructureTree
-              onServerAction={this.onServerAction}
-              onTableAction={this.onTableAction}
-              onColumnAction={this.onColumnAction}
-              onCommandAction={this.onCommandAction}
-            />
-          </Flex>
-          <Flex fill={true} column hfill className={css.baseContent}>
-            <Tabs
-              activeKey={tabsStore.activeTab.map((_) => _.id).orUndefined()}
-              onEdit={this.onEditTabs}
-              onChange={tabsStore.setActiveTab}
-              onMenuAction={this.onMenuAction}
-            >
-              {tabsStore.tabs.map((t) => (
-                <TabsTabPane
-                  key={t.id}
-                  closable
-                  tab={
-                    <Dropdown overlay={tabRightMenu(t.id)} trigger={['contextMenu']}>
-                      <span>
-                        {this.getTabIcon(t)}
-                        {t.title}
-                      </span>
-                    </Dropdown>
-                  }
-                >
-                  <Flex fill={true} column hfill style={{ minHeight: '96vh', maxHeight: '96vh' }}>
-                    {isTabOfType<EditorTabModel>(t, TabType.Editor) && (
-                      <EditorTabPage
-                        store={tabsStore}
-                        serverStructure={treeStore.serverStructure.orUndefined()}
-                        model={t}
-                        onModelFieldChange={t.changeField}
-                        width={uiStore.primaryPaneSize}
-                      />
-                    )}
+                      {isTabOfType<TableViewTabModel>(t, TabType.TableView) && (
+                        <TableViewTabPage
+                          serverStructure={treeStore.serverStructure.orUndefined()}
+                          model={t}
+                        />
+                      )}
 
-                    {isTabOfType<TableViewTabModel>(t, TabType.TableView) && (
-                      <TableViewTabPage
-                        serverStructure={treeStore.serverStructure.orUndefined()}
-                        model={t}
-                      />
-                    )}
+                      {/* {isTabOfType<ProcessesTabModel>(t, TabType.Processes) && <ProcessesTabPage />}
 
-                    {isTabOfType<ProcessesTabModel>(t, TabType.Processes) && <ProcessesTabPage />}
+                      {isTabOfType<MetricsTabModel>(t, TabType.Metrics) && <MetricsTabPage />} */}
 
-                    {isTabOfType<MetricsTabModel>(t, TabType.Metrics) && <MetricsTabPage />}
+                      {/* {isTabOfType<ServerOverviewTab>(t, TabType.ServerOverview) && (
+                        <ServerOverviewTabPage />
+                      )}
 
-                    {isTabOfType<ServerOverviewTab>(t, TabType.ServerOverview) && (
-                      <ServerOverviewTabPage />
-                    )}
+                      {isTabOfType<DbOverviewTab>(t, TabType.DbOverview) && <DbOverviewTabPage />} */}
 
-                    {isTabOfType<DbOverviewTab>(t, TabType.DbOverview) && <DbOverviewTabPage />}
-
-                    {isTabOfType<SqlHistoryTab>(t, TabType.SqlHistory) && (
-                      <SqlHistoryTabPage onEdit={tabsStore.openNewEditorTab} />
-                    )}
-                  </Flex>
-                </TabsTabPane>
-              ))}
-            </Tabs>
-          </Flex>
-        </Splitter>
-      </Page>
+                      {/* {isTabOfType<SqlHistoryTab>(t, TabType.SqlHistory) && (
+                        <SqlHistoryTabPage onEdit={tabsStore.openNewEditorTab} />
+                      )} */}
+                    </Flex>
+                  </TabsTabPane>
+                ))}
+              </Tabs>
+            </Flex>
+          </Splitter>
+        </Page>
+      </div>
     );
   }
 }
 
 export default withRouter(
-  typedInject<InjectedProps, RoutedProps, Stores>(({ store }) => ({
-    tabsStore: store.tabsStore,
-    treeStore: store.treeStore,
-  }))(DashboardView)
+  typedInject<InjectedProps, RoutedProps, Stores>(({ store }) => {
+    return {
+      tabsStore: store.tabsStore,
+      treeStore: store.treeStore,
+      allStore: store,
+    };
+  })(DashboardView)
 );

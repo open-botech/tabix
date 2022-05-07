@@ -1,6 +1,8 @@
 # Output
 dist/
 *.log
+*-front/
+*-front.zip
 
 # Temp and caches
 node_modules/
@@ -19,6 +21,7 @@ node_modules/
 app/src/components/Handsontable/
 
 # Yarn
+.yarn
 .yarn/*
 !.yarn/cache
 !.yarn/patches

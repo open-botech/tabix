@@ -110,7 +110,7 @@ let common = {
     app: ['./index'],
   },
   output: {
-    path: path.resolve(baseDir, 'dist'),
+    path: path.resolve(baseDir, 'tabix-front'),
     publicPath: '/',
     filename: path.join('js', `[name].js?[fullhash:5]`),
   },

@@ -124,7 +124,7 @@ export class TableViewTabPage extends React.Component<Props> {
           <TabPane tab="Data" key="3">
             <Row style={{ height: 'calc(90vh - 30px)', border: '1px solid orange' }}>
               <Flex row hfill style={{ height: '30%', border: '1px solid orange' }}>
-                <Button type="primary" onClick={showTableFilter}>
+                <Button type="primary" style={{color: '#1890FF', background: 'unset', borderColor: '#1890FF'}} onClick={showTableFilter}>
                   Open
                 </Button>
                 <Drawer
